@@ -1,0 +1,723 @@
+basePath: /v1
+definitions:
+  models.BasicResponse:
+    properties:
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.ClientResponse:
+    properties:
+      active_status:
+        type: string
+      address:
+        type: string
+      contact:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      deleted_at:
+        type: string
+      deleted_by:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      uuid:
+        type: string
+    required:
+    - active_status
+    - email
+    - name
+    type: object
+  models.CreateClientRequest:
+    properties:
+      address:
+        type: string
+      contact:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  models.CreateWorkhourRequest:
+    properties:
+      client_uuid:
+        type: string
+      day:
+        type: string
+      end:
+        type: string
+      start:
+        type: string
+    required:
+    - client_uuid
+    - day
+    - end
+    - start
+    type: object
+  models.Pagination:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.ResponseWithPaginate:
+    properties:
+      data: {}
+      message: {}
+      pagination:
+        $ref: '#/definitions/models.Pagination'
+      status_code:
+        type: integer
+    type: object
+  models.UpdateClientRequest:
+    properties:
+      active_status:
+        type: string
+      address:
+        type: string
+      contact:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+    required:
+    - active_status
+    - email
+    - name
+    type: object
+  models.UpdateWorkhourRequest:
+    properties:
+      active_status:
+        type: string
+      client_uuid:
+        type: string
+      day:
+        type: string
+      end:
+        type: string
+      start:
+        type: string
+    required:
+    - active_status
+    - client_uuid
+    - day
+    - end
+    - start
+    type: object
+  models.WorkhourResponse:
+    properties:
+      active_status:
+        type: string
+      client_uuid:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      day:
+        type: string
+      deleted_at:
+        type: string
+      deleted_by:
+        type: integer
+      end:
+        type: string
+      start:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: integer
+      uuid:
+        type: string
+    required:
+    - active_status
+    - client_uuid
+    - day
+    - end
+    - start
+    type: object
+  models.ZoneRequest:
+    properties:
+      capacity:
+        type: integer
+      client_id:
+        type: integer
+      is_cashier:
+        type: boolean
+      name:
+        type: string
+    required:
+    - capacity
+    - client_id
+    - is_cashier
+    - name
+    type: object
+  models.ZoneResponse:
+    properties:
+      capacity:
+        type: integer
+      client_id:
+        type: integer
+      client_name:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      deleted_at:
+        type: string
+      deleted_by:
+        type: string
+      is_cashier:
+        type: boolean
+      name:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      uuid:
+        type: string
+    required:
+    - capacity
+    - client_id
+    - is_cashier
+    - name
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Echo Swagger Example API
+  version: "1.0"
+paths:
+  /master-client:
+    get:
+      consumes:
+      - application/json
+      description: Get client master data
+      operationId: client-get
+      parameters:
+      - description: Search client by name
+        in: query
+        name: name
+        type: string
+      - description: Filter client by status
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseWithPaginate'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ClientResponse'
+                  type: array
+                pagination:
+                  $ref: '#/definitions/models.Pagination'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get client master
+      tags:
+      - Client
+    post:
+      consumes:
+      - application/json
+      description: Create client master data
+      operationId: client-create
+      parameters:
+      - description: Create client request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateClientRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ClientResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Create client master
+      tags:
+      - Client
+  /master-client/:uuid:
+    delete:
+      consumes:
+      - application/json
+      description: Delete client master data
+      operationId: client-delete
+      parameters:
+      - description: Param uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Delete client master
+      tags:
+      - Client
+    get:
+      consumes:
+      - application/json
+      description: Get detail client master data
+      operationId: client-get-detail
+      parameters:
+      - description: Param uuid
+        in: path
+        name: uuid
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ClientResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get detail client master
+      tags:
+      - Client
+    patch:
+      consumes:
+      - application/json
+      description: Update client master data
+      operationId: client-update
+      parameters:
+      - description: Param uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: Update client request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateClientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ClientResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Update client master
+      tags:
+      - Client
+  /master-workhour:
+    post:
+      consumes:
+      - application/json
+      description: Create  master workhour data
+      operationId: workhour-create
+      parameters:
+      - description: Create workhour request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateWorkhourRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.WorkhourResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Create  master workhour
+      tags:
+      - Workhour
+  /master-workhour/:client-uuid:
+    get:
+      consumes:
+      - application/json
+      description: Get  master workhour data by client uuid
+      operationId: workhour-get
+      parameters:
+      - description: Client uuid
+        in: path
+        name: client-uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.WorkhourResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get  master workhour data by client uuid
+      tags:
+      - Workhour
+  /master-workhour/:uuid:
+    patch:
+      consumes:
+      - application/json
+      description: Update  master workhour data
+      operationId: workhour-update
+      parameters:
+      - description: Param uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: Update workhour request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateWorkhourRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.WorkhourResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Update  master workhour
+      tags:
+      - Workhour
+  /master-zone:
+    get:
+      consumes:
+      - application/json
+      description: Get all zone master
+      operationId: zone-get-all
+      parameters:
+      - description: filter by zone name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: filter From by capacity range
+        in: query
+        name: rangeFrom
+        required: true
+        type: string
+      - description: filter To by capacity range
+        in: query
+        name: rangeTo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ResponseWithPaginate'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ZoneResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get all zone master
+      tags:
+      - Zone
+    post:
+      consumes:
+      - application/json
+      description: Create zone master data
+      operationId: zone-create
+      parameters:
+      - description: Post zona name
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ZoneRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.ZoneResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Create zone master
+      tags:
+      - Zone
+  /master-zone/{uuid}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete zone master
+      operationId: zone-delete
+      parameters:
+      - description: uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.ZoneResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Delete zone master
+      tags:
+      - Zone
+    get:
+      consumes:
+      - application/json
+      description: Get zone master data by uuid
+      operationId: zone-get-by-uuid
+      parameters:
+      - description: uuid
+        in: path
+        name: uuid
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.ZoneResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get zone master by uuid
+      tags:
+      - Zone
+    patch:
+      consumes:
+      - application/json
+      description: Update zone master data
+      operationId: zone-update
+      parameters:
+      - description: zona request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ZoneRequest'
+      - description: uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Update zone master
+      tags:
+      - Zone
+schemes:
+- http
+swagger: "2.0"
