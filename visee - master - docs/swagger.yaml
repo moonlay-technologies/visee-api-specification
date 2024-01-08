@@ -304,7 +304,7 @@ paths:
       summary: Create client master
       tags:
       - Client
-  /master-client/:uuid:
+  /master-client/{uuid}:
     delete:
       consumes:
       - application/json
@@ -343,6 +343,7 @@ paths:
       - description: Param uuid
         in: path
         name: uuid
+        required: true
         type: string
       produces:
       - application/json
@@ -411,6 +412,43 @@ paths:
       summary: Update client master
       tags:
       - Client
+  /master-client/{uuid}/master-workhour:
+    get:
+      consumes:
+      - application/json
+      description: Get  master workhour data by client uuid
+      operationId: workhour-get
+      parameters:
+      - description: Client uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.WorkhourResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get  master workhour data by client uuid
+      tags:
+      - Workhour
   /master-workhour:
     post:
       consumes:
@@ -449,44 +487,7 @@ paths:
       summary: Create  master workhour
       tags:
       - Workhour
-  /master-workhour/:client-uuid:
-    get:
-      consumes:
-      - application/json
-      description: Get  master workhour data by client uuid
-      operationId: workhour-get
-      parameters:
-      - description: Client uuid
-        in: path
-        name: client-uuid
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/models.WorkhourResponse'
-                  type: array
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.BasicResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.BasicResponse'
-      summary: Get  master workhour data by client uuid
-      tags:
-      - Workhour
-  /master-workhour/:uuid:
+  /master-workhour/{uuid}:
     patch:
       consumes:
       - application/json
@@ -539,18 +540,23 @@ paths:
       - description: filter by zone name
         in: query
         name: name
-        required: true
         type: string
       - description: filter From by capacity range
         in: query
         name: rangeFrom
-        required: true
-        type: string
+        type: integer
       - description: filter To by capacity range
         in: query
         name: rangeTo
-        required: true
-        type: string
+        type: integer
+      - description: filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: filter to spesific page
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
@@ -655,6 +661,7 @@ paths:
       - description: uuid
         in: path
         name: uuid
+        required: true
         type: string
       produces:
       - application/json
