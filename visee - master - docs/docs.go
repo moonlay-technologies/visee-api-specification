@@ -322,7 +322,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/master-client/{uuid}/master-workhour": {
+        "/master-client/{uuid}/workhour": {
             "get": {
                 "description": "Get  master workhour data by client uuid",
                 "consumes": [
@@ -332,7 +332,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Workhour"
+                    "Zone"
                 ],
                 "summary": "Get  master workhour data by client uuid",
                 "operationId": "workhour-get",
@@ -357,10 +357,86 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
+                                            "$ref": "#/definitions/models.CreateWorkhourResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.BasicResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.BasicResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update  master workhour data by client uuid",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zone"
+                ],
+                "summary": "Update  master workhour",
+                "operationId": "workhour-update",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Param uuid",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update workhour request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.CreateWorkhourRequest"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "workhours": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/models.WorkhourResponse"
+                                                "$ref": "#/definitions/models.WorkhourReq"
                                             }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.CreateWorkhourResponse"
                                         }
                                     }
                                 }
@@ -403,82 +479,28 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateWorkhourRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/models.Response"
+                                    "$ref": "#/definitions/models.CreateWorkhourRequest"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
+                                        "workhours": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/models.WorkhourResponse"
+                                                "$ref": "#/definitions/models.WorkhourReq"
                                             }
                                         }
                                     }
                                 }
                             ]
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.BasicResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.BasicResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/master-workhour/{uuid}": {
-            "patch": {
-                "description": "Update  master workhour data",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Workhour"
-                ],
-                "summary": "Update  master workhour",
-                "operationId": "workhour-update",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Param uuid",
-                        "name": "uuid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Update workhour request",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.UpdateWorkhourRequest"
-                        }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "allOf": [
                                 {
@@ -741,19 +763,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.ZoneResponse"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/models.BasicResponse"
                         }
                     },
                     "400": {
@@ -905,22 +915,38 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "client_uuid",
-                "day",
-                "end",
-                "start"
+                "workhours"
             ],
             "properties": {
                 "client_uuid": {
                     "type": "string"
                 },
-                "day": {
+                "workhours": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.WorkhourReq"
+                    }
+                }
+            }
+        },
+        "models.CreateWorkhourResponse": {
+            "type": "object",
+            "required": [
+                "client_uuid",
+                "workhours"
+            ],
+            "properties": {
+                "client_name": {
                     "type": "string"
                 },
-                "end": {
+                "client_uuid": {
                     "type": "string"
                 },
-                "start": {
-                    "type": "string"
+                "workhours": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.WorkhourResponse"
+                    }
                 }
             }
         },
@@ -989,21 +1015,17 @@ const docTemplate = `{
                 }
             }
         },
-        "models.UpdateWorkhourRequest": {
+        "models.WorkhourReq": {
             "type": "object",
             "required": [
                 "active_status",
-                "client_uuid",
                 "day",
                 "end",
                 "start"
             ],
             "properties": {
                 "active_status": {
-                    "type": "string"
-                },
-                "client_uuid": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "day": {
                     "type": "string"
@@ -1020,23 +1042,19 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "active_status",
-                "client_uuid",
                 "day",
                 "end",
                 "start"
             ],
             "properties": {
                 "active_status": {
-                    "type": "string"
-                },
-                "client_uuid": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "created_at": {
                     "type": "string"
                 },
                 "created_by": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "day": {
                     "type": "string"
@@ -1045,7 +1063,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "deleted_by": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "end": {
                     "type": "string"
@@ -1057,7 +1075,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updated_by": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "uuid": {
                     "type": "string"
@@ -1068,7 +1086,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "capacity",
-                "client_id",
+                "client_uuid",
                 "is_cashier",
                 "name"
             ],
@@ -1076,8 +1094,8 @@ const docTemplate = `{
                 "capacity": {
                     "type": "integer"
                 },
-                "client_id": {
-                    "type": "integer"
+                "client_uuid": {
+                    "type": "string"
                 },
                 "is_cashier": {
                     "type": "boolean"
@@ -1091,7 +1109,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "capacity",
-                "client_id",
+                "client_uuid",
                 "is_cashier",
                 "name"
             ],
@@ -1099,10 +1117,10 @@ const docTemplate = `{
                 "capacity": {
                     "type": "integer"
                 },
-                "client_id": {
-                    "type": "integer"
-                },
                 "client_name": {
+                    "type": "string"
+                },
+                "client_uuid": {
                     "type": "string"
                 },
                 "created_at": {
