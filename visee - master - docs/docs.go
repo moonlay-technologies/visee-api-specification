@@ -332,7 +332,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Zone"
+                    "Client"
                 ],
                 "summary": "Get  master workhour data by client uuid",
                 "operationId": "workhour-get",
@@ -387,7 +387,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Zone"
+                    "Client"
                 ],
                 "summary": "Update  master workhour",
                 "operationId": "workhour-update",
@@ -437,6 +437,84 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/models.CreateWorkhourResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.BasicResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.BasicResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/master-client/{uuid}/zone": {
+            "get": {
+                "description": "Get  master zone data by client uuid",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Get  master zone data by client uuid",
+                "operationId": "zone-by-client",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Client uuid",
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter to set limit in 1 page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter to spesific page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "filter to spesific zone (all, cashier, regular)",
+                        "name": "zone",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.ZoneResponse"
+                                            }
                                         }
                                     }
                                 }

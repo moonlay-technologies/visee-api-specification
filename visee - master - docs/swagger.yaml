@@ -450,7 +450,7 @@ paths:
             $ref: '#/definitions/models.BasicResponse'
       summary: Get  master workhour data by client uuid
       tags:
-      - Zone
+      - Client
     patch:
       consumes:
       - application/json
@@ -497,7 +497,56 @@ paths:
             $ref: '#/definitions/models.BasicResponse'
       summary: Update  master workhour
       tags:
-      - Zone
+      - Client
+  /master-client/{uuid}/zone:
+    get:
+      consumes:
+      - application/json
+      description: Get  master zone data by client uuid
+      operationId: zone-by-client
+      parameters:
+      - description: Client uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: filter to spesific page
+        in: query
+        name: page
+        type: integer
+      - description: filter to spesific zone (all, cashier, regular)
+        in: query
+        name: zone
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ZoneResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get  master zone data by client uuid
+      tags:
+      - Client
   /master-workhour:
     post:
       consumes:
