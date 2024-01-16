@@ -55,17 +55,27 @@ definitions:
     properties:
       client_uuid:
         type: string
-      day:
-        type: string
-      end:
-        type: string
-      start:
-        type: string
+      workhours:
+        items:
+          $ref: '#/definitions/models.WorkhourReq'
+        type: array
     required:
     - client_uuid
-    - day
-    - end
-    - start
+    - workhours
+    type: object
+  models.CreateWorkhourResponse:
+    properties:
+      client_name:
+        type: string
+      client_uuid:
+        type: string
+      workhours:
+        items:
+          $ref: '#/definitions/models.WorkhourResponse'
+        type: array
+    required:
+    - client_uuid
+    - workhours
     type: object
   models.Pagination:
     properties:
@@ -111,12 +121,10 @@ definitions:
     - email
     - name
     type: object
-  models.UpdateWorkhourRequest:
+  models.WorkhourReq:
     properties:
       active_status:
-        type: string
-      client_uuid:
-        type: string
+        type: boolean
       day:
         type: string
       end:
@@ -125,7 +133,6 @@ definitions:
         type: string
     required:
     - active_status
-    - client_uuid
     - day
     - end
     - start
@@ -133,19 +140,17 @@ definitions:
   models.WorkhourResponse:
     properties:
       active_status:
-        type: string
-      client_uuid:
-        type: string
+        type: boolean
       created_at:
         type: string
       created_by:
-        type: integer
+        type: string
       day:
         type: string
       deleted_at:
         type: string
       deleted_by:
-        type: integer
+        type: string
       end:
         type: string
       start:
@@ -153,12 +158,11 @@ definitions:
       updated_at:
         type: string
       updated_by:
-        type: integer
+        type: string
       uuid:
         type: string
     required:
     - active_status
-    - client_uuid
     - day
     - end
     - start
@@ -167,15 +171,15 @@ definitions:
     properties:
       capacity:
         type: integer
-      client_id:
-        type: integer
+      client_uuid:
+        type: string
       is_cashier:
         type: boolean
       name:
         type: string
     required:
     - capacity
-    - client_id
+    - client_uuid
     - is_cashier
     - name
     type: object
@@ -183,9 +187,9 @@ definitions:
     properties:
       capacity:
         type: integer
-      client_id:
-        type: integer
       client_name:
+        type: string
+      client_uuid:
         type: string
       created_at:
         type: string
@@ -207,7 +211,7 @@ definitions:
         type: string
     required:
     - capacity
-    - client_id
+    - client_uuid
     - is_cashier
     - name
     type: object
@@ -240,6 +244,14 @@ paths:
         in: query
         name: status
         type: string
+      - description: Filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter to spesific page
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
@@ -412,7 +424,7 @@ paths:
       summary: Update client master
       tags:
       - Client
-  /master-client/{uuid}/master-workhour:
+  /master-client/{uuid}/workhour:
     get:
       consumes:
       - application/json
@@ -434,9 +446,7 @@ paths:
             - $ref: '#/definitions/models.Response'
             - properties:
                 data:
-                  items:
-                    $ref: '#/definitions/models.WorkhourResponse'
-                  type: array
+                  $ref: '#/definitions/models.CreateWorkhourResponse'
               type: object
         "400":
           description: Bad Request
@@ -448,7 +458,103 @@ paths:
             $ref: '#/definitions/models.BasicResponse'
       summary: Get  master workhour data by client uuid
       tags:
-      - Workhour
+      - Client
+    patch:
+      consumes:
+      - application/json
+      description: Update  master workhour data by client uuid
+      operationId: workhour-update
+      parameters:
+      - description: Param uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: Update workhour request
+        in: body
+        name: request
+        required: true
+        schema:
+          allOf:
+          - $ref: '#/definitions/models.CreateWorkhourRequest'
+          - properties:
+              workhours:
+                items:
+                  $ref: '#/definitions/models.WorkhourReq'
+                type: array
+            type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.CreateWorkhourResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Update  master workhour
+      tags:
+      - Client
+  /master-client/{uuid}/zone:
+    get:
+      consumes:
+      - application/json
+      description: Get  master zone data by client uuid
+      operationId: zone-by-client
+      parameters:
+      - description: Client uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: filter to spesific page
+        in: query
+        name: page
+        type: integer
+      - description: filter to spesific zone (all, cashier, regular)
+        in: query
+        name: zone
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.ZoneResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
+      summary: Get  master zone data by client uuid
+      tags:
+      - Client
   /master-workhour:
     post:
       consumes:
@@ -461,7 +567,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.CreateWorkhourRequest'
+          allOf:
+          - $ref: '#/definitions/models.CreateWorkhourRequest'
+          - properties:
+              workhours:
+                items:
+                  $ref: '#/definitions/models.WorkhourReq'
+                type: array
+            type: object
       produces:
       - application/json
       responses:
@@ -485,49 +598,6 @@ paths:
           schema:
             $ref: '#/definitions/models.BasicResponse'
       summary: Create  master workhour
-      tags:
-      - Workhour
-  /master-workhour/{uuid}:
-    patch:
-      consumes:
-      - application/json
-      description: Update  master workhour data
-      operationId: workhour-update
-      parameters:
-      - description: Param uuid
-        in: path
-        name: uuid
-        required: true
-        type: string
-      - description: Update workhour request
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/models.UpdateWorkhourRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/models.WorkhourResponse'
-                  type: array
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.BasicResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.BasicResponse'
-      summary: Update  master workhour
       tags:
       - Workhour
   /master-zone:
@@ -635,12 +705,7 @@ paths:
         "201":
           description: Created
           schema:
-            allOf:
-            - $ref: '#/definitions/models.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.ZoneResponse'
-              type: object
+            $ref: '#/definitions/models.BasicResponse'
         "400":
           description: Bad Request
           schema:
