@@ -1,0 +1,231 @@
+basePath: /v1
+definitions:
+  models.BasicResponse:
+    properties:
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.GenderList:
+    properties:
+      gender:
+        type: string
+      total:
+        type: integer
+      visitor_by_zone:
+        items:
+          $ref: '#/definitions/models.VisitorByZone'
+        type: array
+    type: object
+  models.GetCountByGenderResponse:
+    properties:
+      end_time:
+        type: string
+      gender_list:
+        items:
+          $ref: '#/definitions/models.GenderList'
+        type: array
+      start_time:
+        type: string
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.VisitorByZone:
+    properties:
+      number_of_visitor:
+        type: integer
+      zone:
+        type: string
+    type: object
+  models.VisitorCountResponse:
+    properties:
+      number_of_visitor:
+        type: integer
+    type: object
+host: localhost:3008
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Echo Swagger Example API
+  version: "1.0"
+paths:
+  /visitor-client/{client_uuid}/count:
+    get:
+      consumes:
+      - application/json
+      description: Get count visitor
+      operationId: count-visitor
+      parameters:
+      - description: Client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.VisitorCountResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get count visitor
+      tags:
+      - Monitoring Visitor
+  /visitor-client/{client_uuid}/count-buyer:
+    get:
+      consumes:
+      - application/json
+      description: Get number of buyers
+      operationId: count-buyers
+      parameters:
+      - description: Client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.VisitorCountResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get number of buyers
+      tags:
+      - Monitoring Visitor
+  /visitor-client/{client_uuid}/count-by-gender:
+    get:
+      consumes:
+      - application/json
+      description: Get count visitor by gender
+      operationId: count-visitor-by-gender
+      parameters:
+      - description: Client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - description: Filter time range which 5, 15, 30, and 60
+        in: query
+        name: time_range
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.GetCountByGenderResponse'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get count visitor by gender
+      tags:
+      - Monitoring Visitor
+schemes:
+- http
+swagger: "2.0"
