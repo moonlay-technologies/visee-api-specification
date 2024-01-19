@@ -244,6 +244,14 @@ paths:
         in: query
         name: status
         type: string
+      - description: Filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: Filter to spesific page
+        in: query
+        name: page
+        type: integer
       produces:
       - application/json
       responses:
