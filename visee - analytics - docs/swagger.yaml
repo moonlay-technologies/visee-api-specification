@@ -18,6 +18,30 @@ definitions:
       number_of_buyers:
         type: integer
     type: object
+  models.GetHeatmapResponse:
+    properties:
+      capacity:
+        type: integer
+      density:
+        type: number
+      detail_by_gender:
+        items:
+          $ref: '#/definitions/models.HeatmapDetailByGender'
+        type: array
+      total_visitor:
+        type: integer
+      zone:
+        type: string
+      zone_id:
+        type: integer
+    type: object
+  models.HeatmapDetailByGender:
+    properties:
+      gender:
+        type: string
+      total:
+        type: integer
+    type: object
   models.Response:
     properties:
       data: {}
@@ -142,6 +166,83 @@ paths:
       summary: Get count buyers analytics
       tags:
       - Buyers
+  /analytic/heatmap/{client_uuid}:
+    get:
+      consumes:
+      - application/json
+      description: Get heatmap
+      operationId: heatmap
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.GetHeatmapResponse'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get heatmap
+      tags:
+      - Heatmap
   /analytic/history-state/{client_uuid}/avg-dw-time-by-period:
     get:
       consumes:
