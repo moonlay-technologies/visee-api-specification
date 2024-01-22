@@ -1,0 +1,393 @@
+basePath: /v1
+definitions:
+  models.AvgDwTimeByPeriod:
+    properties:
+      avg_dw_time:
+        type: number
+      time_period:
+        type: string
+    type: object
+  models.BasicResponse:
+    properties:
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.BuyersCountResponse:
+    properties:
+      number_of_buyers:
+        type: integer
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.SumCountVisitor:
+    properties:
+      label:
+        type: string
+      sum_count:
+        type: integer
+    type: object
+  models.VisitorCount:
+    properties:
+      avg_visitor:
+        type: number
+      max_visitor:
+        $ref: '#/definitions/models.SumCountVisitor'
+      min_visitor:
+        $ref: '#/definitions/models.SumCountVisitor'
+    type: object
+  models.VisitorCountResponse:
+    properties:
+      number_of_visitor:
+        type: integer
+    type: object
+host: localhost:3009
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Echo Swagger Example API
+  version: "1.0"
+paths:
+  /analytic/buyers/{client_uuid}/count:
+    get:
+      consumes:
+      - application/json
+      description: Get count buyers analytics
+      operationId: count-buyers-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.BuyersCountResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get count buyers analytics
+      tags:
+      - Buyers
+  /analytic/history-state/{client_uuid}/avg-dw-time-by-period:
+    get:
+      consumes:
+      - application/json
+      description: Get avg dwell time by time period analytics
+      operationId: avg-dwell-time-by-time-period-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.AvgDwTimeByPeriod'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get avg dwell time by time period analytics
+      tags:
+      - History State
+  /analytic/visitor/{client_uuid}/count:
+    get:
+      consumes:
+      - application/json
+      description: Get count visitor analytics
+      operationId: count-visitor-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.VisitorCountResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get count visitor analytics
+      tags:
+      - Visitor
+  /analytic/visitor/{client_uuid}/count-group:
+    get:
+      consumes:
+      - application/json
+      description: Get count max, min, avg visitor analytics
+      operationId: count-visitor-analytic-group
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.VisitorCount'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get count max, min, avg visitor analytics
+      tags:
+      - Visitor
+schemes:
+- http
+swagger: "2.0"

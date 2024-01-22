@@ -50,6 +50,18 @@ const docTemplate = `{
                         "description": "Filter client by status",
                         "name": "status",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter to set limit in 1 page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter to spesific page",
+                        "name": "page",
+                        "in": "query"
                     }
                 ],
                 "responses": {
