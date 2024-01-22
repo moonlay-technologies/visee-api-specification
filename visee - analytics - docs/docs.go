@@ -159,6 +159,141 @@ const docTemplate = `{
                 }
             }
         },
+        "/analytic/history-state/{client_uuid}/avg-dw-time-by-period": {
+            "get": {
+                "description": "Get avg dwell time by time period analytics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "History State"
+                ],
+                "summary": "Get avg dwell time by time period analytics",
+                "operationId": "avg-dwell-time-by-time-period-analytics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "zone uuid",
+                        "name": "filter_zone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "gender",
+                        "name": "filter_gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "age",
+                        "name": "filter_age",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.AvgDwTimeByPeriod"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/analytic/visitor/{client_uuid}/count": {
             "get": {
                 "description": "Get count visitor analytics",
@@ -431,6 +566,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.AvgDwTimeByPeriod": {
+            "type": "object",
+            "properties": {
+                "avg_dw_time": {
+                    "type": "number"
+                },
+                "time_period": {
+                    "type": "string"
+                }
+            }
+        },
         "models.BasicResponse": {
             "type": "object",
             "properties": {
