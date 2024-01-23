@@ -25,13 +25,6 @@ definitions:
       number_of_buyers:
         type: integer
     type: object
-  models.GenderDetail:
-    properties:
-      gender:
-        type: string
-      total:
-        type: integer
-    type: object
   models.GetHeatmapResponse:
     properties:
       capacity:
@@ -48,6 +41,15 @@ definitions:
         type: string
       zone_id:
         type: integer
+    type: object
+  models.GetTimePeriodVisitors:
+    properties:
+      female_count:
+        type: integer
+      male_count:
+        type: integer
+      time_period:
+        type: string
     type: object
   models.HeatmapDetailByGender:
     properties:
@@ -69,17 +71,6 @@ definitions:
         type: string
       sum_count:
         type: integer
-    type: object
-  models.TrendBuyersByTimePeriodResponse:
-    properties:
-      gender_details:
-        items:
-          $ref: '#/definitions/models.GenderDetail'
-        type: array
-      number_of_buyers:
-        type: integer
-      time_period:
-        type: string
     type: object
   models.VisitorCount:
     properties:
@@ -242,7 +233,9 @@ paths:
             - $ref: '#/definitions/models.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/models.TrendBuyersByTimePeriodResponse'
+                  items:
+                    $ref: '#/definitions/models.GetTimePeriodVisitors'
+                  type: array
                 message:
                   items:
                     type: string
@@ -401,7 +394,9 @@ paths:
             - $ref: '#/definitions/models.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/models.AvgDwTimeByPeriod'
+                  items:
+                    $ref: '#/definitions/models.AvgDwTimeByPeriod'
+                  type: array
                 message:
                   items:
                     type: string
@@ -483,7 +478,9 @@ paths:
             - $ref: '#/definitions/models.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/models.AvgDwTimeByZone'
+                  items:
+                    $ref: '#/definitions/models.AvgDwTimeByZone'
+                  type: array
                 message:
                   items:
                     type: string
@@ -676,6 +673,88 @@ paths:
                   type: array
               type: object
       summary: Get count max, min, avg visitor analytics
+      tags:
+      - Visitor
+  /analytic/visitor/{client_uuid}/time-period-by-gender:
+    get:
+      consumes:
+      - application/json
+      description: Get number visitors of time period
+      operationId: number-visitor-time-period
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.GetTimePeriodVisitors'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get number visitors of time period
       tags:
       - Visitor
 schemes:

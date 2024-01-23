@@ -236,7 +236,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/models.TrendBuyersByTimePeriodResponse"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.GetTimePeriodVisitors"
+                                            }
                                         },
                                         "message": {
                                             "type": "array",
@@ -499,7 +502,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/models.AvgDwTimeByPeriod"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.AvgDwTimeByPeriod"
+                                            }
                                         },
                                         "message": {
                                             "type": "array",
@@ -634,7 +640,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/models.AvgDwTimeByZone"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.AvgDwTimeByZone"
+                                            }
                                         },
                                         "message": {
                                             "type": "array",
@@ -961,6 +970,141 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/analytic/visitor/{client_uuid}/time-period-by-gender": {
+            "get": {
+                "description": "Get number visitors of time period",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Visitor"
+                ],
+                "summary": "Get number visitors of time period",
+                "operationId": "number-visitor-time-period",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "zone uuid",
+                        "name": "filter_zone",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "gender",
+                        "name": "filter_gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "age",
+                        "name": "filter_age",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.GetTimePeriodVisitors"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1003,17 +1147,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.GenderDetail": {
-            "type": "object",
-            "properties": {
-                "gender": {
-                    "type": "string"
-                },
-                "total": {
-                    "type": "integer"
-                }
-            }
-        },
         "models.GetHeatmapResponse": {
             "type": "object",
             "properties": {
@@ -1037,6 +1170,20 @@ const docTemplate = `{
                 },
                 "zone_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.GetTimePeriodVisitors": {
+            "type": "object",
+            "properties": {
+                "female_count": {
+                    "type": "integer"
+                },
+                "male_count": {
+                    "type": "integer"
+                },
+                "time_period": {
+                    "type": "string"
                 }
             }
         },
@@ -1069,23 +1216,6 @@ const docTemplate = `{
                 },
                 "sum_count": {
                     "type": "integer"
-                }
-            }
-        },
-        "models.TrendBuyersByTimePeriodResponse": {
-            "type": "object",
-            "properties": {
-                "gender_details": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.GenderDetail"
-                    }
-                },
-                "number_of_buyers": {
-                    "type": "integer"
-                },
-                "time_period": {
-                    "type": "string"
                 }
             }
         },
