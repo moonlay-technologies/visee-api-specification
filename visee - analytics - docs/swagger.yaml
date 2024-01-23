@@ -7,6 +7,13 @@ definitions:
       time_period:
         type: string
     type: object
+  models.AvgDwTimeByZone:
+    properties:
+      avg_dw_time:
+        type: number
+      zone:
+        type: string
+    type: object
   models.BasicResponse:
     properties:
       message: {}
@@ -34,6 +41,15 @@ definitions:
         type: string
       zone_id:
         type: integer
+    type: object
+  models.GetTimePeriodVisitors:
+    properties:
+      female_count:
+        type: integer
+      male_count:
+        type: integer
+      time_period:
+        type: string
     type: object
   models.HeatmapDetailByGender:
     properties:
@@ -166,6 +182,90 @@ paths:
       summary: Get count buyers analytics
       tags:
       - Buyers
+  /analytic/buyers/{client_uuid}/trend-by-time-period:
+    get:
+      consumes:
+      - application/json
+      description: Get trend of buyers by time period analytics
+      operationId: trend-of-buyers-by-time-period-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.GetTimePeriodVisitors'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get trend of buyers by time period analytics
+      tags:
+      - Buyers
   /analytic/heatmap/{client_uuid}:
     get:
       consumes:
@@ -294,7 +394,9 @@ paths:
             - $ref: '#/definitions/models.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/models.AvgDwTimeByPeriod'
+                  items:
+                    $ref: '#/definitions/models.AvgDwTimeByPeriod'
+                  type: array
                 message:
                   items:
                     type: string
@@ -323,6 +425,90 @@ paths:
                   type: array
               type: object
       summary: Get avg dwell time by time period analytics
+      tags:
+      - History State
+  /analytic/history-state/{client_uuid}/avg-dw-time-by-zone:
+    get:
+      consumes:
+      - application/json
+      description: Get avg dwell time by time zone analytics
+      operationId: avg-dwell-time-by-time-zone-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.AvgDwTimeByZone'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get avg dwell time by time zone analytics
       tags:
       - History State
   /analytic/visitor/{client_uuid}/count:
@@ -487,6 +673,88 @@ paths:
                   type: array
               type: object
       summary: Get count max, min, avg visitor analytics
+      tags:
+      - Visitor
+  /analytic/visitor/{client_uuid}/time-period-by-gender:
+    get:
+      consumes:
+      - application/json
+      description: Get number visitors of time period
+      operationId: number-visitor-time-period
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: zone uuid
+        in: query
+        items:
+          type: string
+        name: filter_zone
+        type: array
+      - collectionFormat: multi
+        description: gender
+        in: query
+        items:
+          type: string
+        name: filter_gender
+        type: array
+      - collectionFormat: multi
+        description: age
+        in: query
+        items:
+          type: string
+        name: filter_age
+        type: array
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.GetTimePeriodVisitors'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get number visitors of time period
       tags:
       - Visitor
 schemes:
