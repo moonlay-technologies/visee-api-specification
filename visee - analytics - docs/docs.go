@@ -449,7 +449,18 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
+<<<<<<< HEAD
                                             "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
+=======
+<<<<<<< HEAD
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.DemographicEmotion"
+                                            }
+=======
+                                            "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
+>>>>>>> e89db9a (demographic by emotion)
+>>>>>>> 5298166 (demographic by emotion)
                                         },
                                         "message": {
                                             "type": "array",
@@ -1462,7 +1473,12 @@ const docTemplate = `{
                 }
             }
         },
+<<<<<<< HEAD
         "models.DemographicVisitorByAgeResponse": {
+=======
+<<<<<<< HEAD
+        "models.DemographicEmotion": {
+>>>>>>> 5298166 (demographic by emotion)
             "type": "object",
             "properties": {
                 "age": {
@@ -1470,9 +1486,13 @@ const docTemplate = `{
                 },
                 "number_of_visitor": {
                     "type": "integer"
+<<<<<<< HEAD
                 }
             }
         },
+=======
+=======
+>>>>>>> 5298166 (demographic by emotion)
         "models.DemographicVisitorByEmotionResponse": {
             "type": "object",
             "properties": {
@@ -1481,6 +1501,10 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.DetailDemographicVisitorByEmotion"
                     }
+<<<<<<< HEAD
+=======
+>>>>>>> e89db9a (demographic by emotion)
+>>>>>>> 5298166 (demographic by emotion)
                 },
                 "total_visitor": {
                     "type": "integer"
@@ -1501,6 +1525,11 @@ const docTemplate = `{
                 }
             }
         },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 5298166 (demographic by emotion)
         "models.DetailDemographicVisitorByEmotion": {
             "type": "object",
             "properties": {
@@ -1515,6 +1544,10 @@ const docTemplate = `{
                 }
             }
         },
+<<<<<<< HEAD
+=======
+>>>>>>> e89db9a (demographic by emotion)
+>>>>>>> 5298166 (demographic by emotion)
         "models.DetailDemographicVisitorByGender": {
             "type": "object",
             "properties": {
