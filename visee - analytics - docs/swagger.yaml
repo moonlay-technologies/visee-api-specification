@@ -26,6 +26,7 @@ definitions:
         type: integer
     type: object
 <<<<<<< HEAD
+<<<<<<< HEAD
   models.DemographicVisitorByAgeResponse:
 =======
 <<<<<<< HEAD
@@ -41,6 +42,8 @@ definitions:
 =======
 =======
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
   models.DemographicVisitorByEmotionResponse:
     properties:
       detail_by_emotion:
@@ -48,9 +51,12 @@ definitions:
           $ref: '#/definitions/models.DetailDemographicVisitorByEmotion'
         type: array
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e89db9a (demographic by emotion)
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
       total_visitor:
         type: integer
     type: object
@@ -64,10 +70,13 @@ definitions:
         type: integer
     type: object
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
   models.DetailDemographicVisitorByEmotion:
     properties:
       emotion:
@@ -78,9 +87,12 @@ definitions:
         type: number
     type: object
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e89db9a (demographic by emotion)
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
   models.DetailDemographicVisitorByGender:
     properties:
       gender:
@@ -423,6 +435,7 @@ paths:
             - properties:
                 data:
 <<<<<<< HEAD
+<<<<<<< HEAD
                   $ref: '#/definitions/models.DemographicVisitorByEmotionResponse'
 =======
 <<<<<<< HEAD
@@ -433,6 +446,9 @@ paths:
                   $ref: '#/definitions/models.DemographicVisitorByEmotionResponse'
 >>>>>>> e89db9a (demographic by emotion)
 >>>>>>> 5298166 (demographic by emotion)
+=======
+                  $ref: '#/definitions/models.DemographicVisitorByEmotionResponse'
+>>>>>>> ef69d88 (demographic by emotion)
                 message:
                   items:
                     type: string

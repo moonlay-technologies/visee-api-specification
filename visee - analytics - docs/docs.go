@@ -450,6 +450,7 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
 <<<<<<< HEAD
+<<<<<<< HEAD
                                             "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
 =======
 <<<<<<< HEAD
@@ -461,6 +462,9 @@ const docTemplate = `{
                                             "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
 >>>>>>> e89db9a (demographic by emotion)
 >>>>>>> 5298166 (demographic by emotion)
+=======
+                                            "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
+>>>>>>> ef69d88 (demographic by emotion)
                                         },
                                         "message": {
                                             "type": "array",
@@ -1474,6 +1478,7 @@ const docTemplate = `{
             }
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         "models.DemographicVisitorByAgeResponse": {
 =======
 <<<<<<< HEAD
@@ -1493,6 +1498,8 @@ const docTemplate = `{
 =======
 =======
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
         "models.DemographicVisitorByEmotionResponse": {
             "type": "object",
             "properties": {
@@ -1502,9 +1509,12 @@ const docTemplate = `{
                         "$ref": "#/definitions/models.DetailDemographicVisitorByEmotion"
                     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e89db9a (demographic by emotion)
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
                 },
                 "total_visitor": {
                     "type": "integer"
@@ -1526,10 +1536,13 @@ const docTemplate = `{
             }
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
         "models.DetailDemographicVisitorByEmotion": {
             "type": "object",
             "properties": {
@@ -1545,9 +1558,12 @@ const docTemplate = `{
             }
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> e89db9a (demographic by emotion)
 >>>>>>> 5298166 (demographic by emotion)
+=======
+>>>>>>> ef69d88 (demographic by emotion)
         "models.DetailDemographicVisitorByGender": {
             "type": "object",
             "properties": {
