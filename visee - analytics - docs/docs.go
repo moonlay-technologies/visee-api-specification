@@ -297,6 +297,219 @@ const docTemplate = `{
                 }
             }
         },
+        "/analytic/demographic/{client_uuid}/visitor-by-emotion": {
+            "get": {
+                "description": "Get demographic percentage visitor by emotion",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Demographic"
+                ],
+                "summary": "Get demographic percentage visitor by emotion",
+                "operationId": "Demographic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.DemographicEmotion"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/analytic/demographic/{client_uuid}/visitor-by-gender": {
+            "get": {
+                "description": "Get demographic visitory by gender analytics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Demographic"
+                ],
+                "summary": "Get demographic visitory by gender analytics",
+                "operationId": "demographic-visitory-by-gender-analytics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.DemographicVisitorByGenderResponse"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/analytic/heatmap/{client_uuid}": {
             "get": {
                 "description": "Get heatmap",
@@ -777,7 +990,7 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        " data": {
+                                        "data": {
                                             "$ref": "#/definitions/models.VisitorCountResponse"
                                         },
                                         "message": {
@@ -912,7 +1125,7 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        " data": {
+                                        "data": {
                                             "$ref": "#/definitions/models.VisitorCount"
                                         },
                                         "message": {
@@ -1047,7 +1260,7 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        " data": {
+                                        "data": {
                                             "$ref": "#/definitions/models.GetTimePeriodVisitors"
                                         },
                                         "message": {
@@ -1144,6 +1357,51 @@ const docTemplate = `{
             "properties": {
                 "number_of_buyers": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.DemographicEmotion": {
+            "type": "object",
+            "properties": {
+                "emotion": {
+                    "type": "string"
+                },
+                "percentage": {
+                    "type": "number"
+                },
+                "sum_emotion": {
+                    "type": "integer"
+                },
+                "total_visitor": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DemographicVisitorByGenderResponse": {
+            "type": "object",
+            "properties": {
+                "detail_by_gender": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DetailDemographicVisitorByGender"
+                    }
+                },
+                "total_visitors": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DetailDemographicVisitorByGender": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "type": "string"
+                },
+                "number_of_visitor": {
+                    "type": "integer"
+                },
+                "percentage": {
+                    "type": "number"
                 }
             }
         },
@@ -1247,7 +1505,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:3009",
+	Host:             "k8s-visee-viseeana-739efae092-dafee2175ed1c246.elb.ap-southeast-1.amazonaws.com",
 	BasePath:         "/v1",
 	Schemes:          []string{"http"},
 	Title:            "Echo Swagger Example API",
