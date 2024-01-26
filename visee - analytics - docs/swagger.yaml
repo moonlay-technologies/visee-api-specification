@@ -25,14 +25,19 @@ definitions:
       number_of_buyers:
         type: integer
     type: object
-  models.DemographicEmotion:
+  models.DemographicVisitorByAgeResponse:
     properties:
-      emotion:
+      age:
         type: string
-      percentage:
-        type: number
-      sum_emotion:
+      number_of_visitor:
         type: integer
+    type: object
+  models.DemographicVisitorByEmotionResponse:
+    properties:
+      detail_by_emotion:
+        items:
+          $ref: '#/definitions/models.DetailDemographicVisitorByEmotion'
+        type: array
       total_visitor:
         type: integer
     type: object
@@ -44,6 +49,15 @@ definitions:
         type: array
       total_visitors:
         type: integer
+    type: object
+  models.DetailDemographicVisitorByEmotion:
+    properties:
+      emotion:
+        type: string
+      number_of_visitor:
+        type: integer
+      percentage:
+        type: number
     type: object
   models.DetailDemographicVisitorByGender:
     properties:
@@ -295,6 +309,67 @@ paths:
       summary: Get trend of buyers by time period analytics
       tags:
       - Buyers
+  /analytic/demographic/{client_uuid}/visitor-by-age:
+    get:
+      consumes:
+      - application/json
+      description: Get demographic visitory by age analytics
+      operationId: demographic-visitory-by-age-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.DemographicVisitorByAgeResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get demographic visitory by age analytics
+      tags:
+      - Demographic
   /analytic/demographic/{client_uuid}/visitor-by-emotion:
     get:
       consumes:
@@ -325,9 +400,7 @@ paths:
             - $ref: '#/definitions/models.Response'
             - properties:
                 data:
-                  items:
-                    $ref: '#/definitions/models.DemographicEmotion'
-                  type: array
+                  $ref: '#/definitions/models.DemographicVisitorByEmotionResponse'
                 message:
                   items:
                     type: string

@@ -297,6 +297,111 @@ const docTemplate = `{
                 }
             }
         },
+        "/analytic/demographic/{client_uuid}/visitor-by-age": {
+            "get": {
+                "description": "Get demographic visitory by age analytics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Demographic"
+                ],
+                "summary": "Get demographic visitory by age analytics",
+                "operationId": "demographic-visitory-by-age-analytics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.DemographicVisitorByAgeResponse"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/analytic/demographic/{client_uuid}/visitor-by-emotion": {
             "get": {
                 "description": "Get demographic percentage visitor by emotion",
@@ -344,10 +449,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.DemographicEmotion"
-                                            }
+                                            "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
                                         },
                                         "message": {
                                             "type": "array",
@@ -1360,17 +1462,25 @@ const docTemplate = `{
                 }
             }
         },
-        "models.DemographicEmotion": {
+        "models.DemographicVisitorByAgeResponse": {
             "type": "object",
             "properties": {
-                "emotion": {
+                "age": {
                     "type": "string"
                 },
-                "percentage": {
-                    "type": "number"
-                },
-                "sum_emotion": {
+                "number_of_visitor": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.DemographicVisitorByEmotionResponse": {
+            "type": "object",
+            "properties": {
+                "detail_by_emotion": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DetailDemographicVisitorByEmotion"
+                    }
                 },
                 "total_visitor": {
                     "type": "integer"
@@ -1388,6 +1498,20 @@ const docTemplate = `{
                 },
                 "total_visitors": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.DetailDemographicVisitorByEmotion": {
+            "type": "object",
+            "properties": {
+                "emotion": {
+                    "type": "string"
+                },
+                "number_of_visitor": {
+                    "type": "integer"
+                },
+                "percentage": {
+                    "type": "number"
                 }
             }
         },
