@@ -42,6 +42,8 @@ definitions:
         type: integer
       zone:
         type: string
+      zone_id:
+        type: integer
     type: object
   models.HeatmapDetailByGender:
     properties:
