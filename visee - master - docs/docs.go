@@ -647,6 +647,12 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "description": "filter by camera type",
+                        "name": "cameraType",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "filter From by capacity range",
                         "name": "rangeFrom",
@@ -1175,12 +1181,16 @@ const docTemplate = `{
         "models.ZoneRequest": {
             "type": "object",
             "required": [
+                "camera_type",
                 "capacity",
                 "client_uuid",
                 "is_cashier",
                 "name"
             ],
             "properties": {
+                "camera_type": {
+                    "type": "string"
+                },
                 "capacity": {
                     "type": "integer"
                 },
@@ -1198,12 +1208,16 @@ const docTemplate = `{
         "models.ZoneResponse": {
             "type": "object",
             "required": [
+                "camera_type",
                 "capacity",
                 "client_uuid",
                 "is_cashier",
                 "name"
             ],
             "properties": {
+                "camera_type": {
+                    "type": "string"
+                },
                 "capacity": {
                     "type": "integer"
                 },
