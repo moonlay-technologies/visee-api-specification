@@ -382,6 +382,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.BasicResponse"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.BasicResponse"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -419,7 +425,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/models.CreateWorkhourRequest"
+                                    "$ref": "#/definitions/models.UpdateWorkhourRequest"
                                 },
                                 {
                                     "type": "object",
@@ -1108,6 +1114,20 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "models.UpdateWorkhourRequest": {
+            "type": "object",
+            "required": [
+                "workhours"
+            ],
+            "properties": {
+                "workhours": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.WorkhourReq"
+                    }
                 }
             }
         },
