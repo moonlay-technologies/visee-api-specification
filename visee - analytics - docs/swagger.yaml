@@ -25,6 +25,49 @@ definitions:
       number_of_buyers:
         type: integer
     type: object
+  models.DemographicVisitorByAgeResponse:
+    properties:
+      age:
+        type: string
+      number_of_visitor:
+        type: integer
+    type: object
+  models.DemographicVisitorByEmotionResponse:
+    properties:
+      detail_by_emotion:
+        items:
+          $ref: '#/definitions/models.DetailDemographicVisitorByEmotion'
+        type: array
+      total_visitor:
+        type: integer
+    type: object
+  models.DemographicVisitorByGenderResponse:
+    properties:
+      detail_by_gender:
+        items:
+          $ref: '#/definitions/models.DetailDemographicVisitorByGender'
+        type: array
+      total_visitors:
+        type: integer
+    type: object
+  models.DetailDemographicVisitorByEmotion:
+    properties:
+      emotion:
+        type: string
+      number_of_visitor:
+        type: integer
+      percentage:
+        type: number
+    type: object
+  models.DetailDemographicVisitorByGender:
+    properties:
+      gender:
+        type: string
+      number_of_visitor:
+        type: integer
+      percentage:
+        type: number
+    type: object
   models.GetHeatmapResponse:
     properties:
       capacity:
@@ -86,7 +129,7 @@ definitions:
       number_of_visitor:
         type: integer
     type: object
-host: localhost:3009
+host: k8s-visee-viseeana-739efae092-dafee2175ed1c246.elb.ap-southeast-1.amazonaws.com
 info:
   contact:
     email: support@swagger.io
@@ -266,6 +309,189 @@ paths:
       summary: Get trend of buyers by time period analytics
       tags:
       - Buyers
+  /analytic/demographic/{client_uuid}/visitor-by-age:
+    get:
+      consumes:
+      - application/json
+      description: Get demographic visitory by age analytics
+      operationId: demographic-visitory-by-age-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.DemographicVisitorByAgeResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get demographic visitory by age analytics
+      tags:
+      - Demographic
+  /analytic/demographic/{client_uuid}/visitor-by-emotion:
+    get:
+      consumes:
+      - application/json
+      description: Get demographic percentage visitor by emotion
+      operationId: Demographic
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.DemographicVisitorByEmotionResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get demographic percentage visitor by emotion
+      tags:
+      - Demographic
+  /analytic/demographic/{client_uuid}/visitor-by-gender:
+    get:
+      consumes:
+      - application/json
+      description: Get demographic visitory by gender analytics
+      operationId: demographic-visitory-by-gender-analytics
+      parameters:
+      - description: client uuid
+        in: path
+        name: client_uuid
+        required: true
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_from
+        type: string
+      - description: YYYY-MM-DD
+        in: query
+        name: range_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.DemographicVisitorByGenderResponse'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get demographic visitory by gender analytics
+      tags:
+      - Demographic
   /analytic/heatmap/{client_uuid}:
     get:
       consumes:
@@ -561,7 +787,7 @@ paths:
             allOf:
             - $ref: '#/definitions/models.Response'
             - properties:
-                ' data':
+                data:
                   $ref: '#/definitions/models.VisitorCountResponse'
                 message:
                   items:
@@ -643,7 +869,7 @@ paths:
             allOf:
             - $ref: '#/definitions/models.Response'
             - properties:
-                ' data':
+                data:
                   $ref: '#/definitions/models.VisitorCount'
                 message:
                   items:
@@ -725,7 +951,7 @@ paths:
             allOf:
             - $ref: '#/definitions/models.Response'
             - properties:
-                ' data':
+                data:
                   $ref: '#/definitions/models.GetTimePeriodVisitors'
                 message:
                   items:

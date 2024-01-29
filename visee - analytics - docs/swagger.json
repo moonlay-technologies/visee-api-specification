@@ -18,7 +18,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:3009",
+    "host": "k8s-visee-viseeana-739efae092-dafee2175ed1c246.elb.ap-southeast-1.amazonaws.com",
     "basePath": "/v1",
     "paths": {
         "/analytic/buyers/{client_uuid}/count": {
@@ -237,6 +237,321 @@
                                             "items": {
                                                 "$ref": "#/definitions/models.GetTimePeriodVisitors"
                                             }
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/analytic/demographic/{client_uuid}/visitor-by-age": {
+            "get": {
+                "description": "Get demographic visitory by age analytics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Demographic"
+                ],
+                "summary": "Get demographic visitory by age analytics",
+                "operationId": "demographic-visitory-by-age-analytics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.DemographicVisitorByAgeResponse"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/analytic/demographic/{client_uuid}/visitor-by-emotion": {
+            "get": {
+                "description": "Get demographic percentage visitor by emotion",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Demographic"
+                ],
+                "summary": "Get demographic percentage visitor by emotion",
+                "operationId": "Demographic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/analytic/demographic/{client_uuid}/visitor-by-gender": {
+            "get": {
+                "description": "Get demographic visitory by gender analytics",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Demographic"
+                ],
+                "summary": "Get demographic visitory by gender analytics",
+                "operationId": "demographic-visitory-by-gender-analytics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "client uuid",
+                        "name": "client_uuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
+                        "name": "range_to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.DemographicVisitorByGenderResponse"
                                         },
                                         "message": {
                                             "type": "array",
@@ -774,7 +1089,7 @@
                                 {
                                     "type": "object",
                                     "properties": {
-                                        " data": {
+                                        "data": {
                                             "$ref": "#/definitions/models.VisitorCountResponse"
                                         },
                                         "message": {
@@ -909,7 +1224,7 @@
                                 {
                                     "type": "object",
                                     "properties": {
-                                        " data": {
+                                        "data": {
                                             "$ref": "#/definitions/models.VisitorCount"
                                         },
                                         "message": {
@@ -1044,7 +1359,7 @@
                                 {
                                     "type": "object",
                                     "properties": {
-                                        " data": {
+                                        "data": {
                                             "$ref": "#/definitions/models.GetTimePeriodVisitors"
                                         },
                                         "message": {
@@ -1141,6 +1456,73 @@
             "properties": {
                 "number_of_buyers": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.DemographicVisitorByAgeResponse": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "string"
+                },
+                "number_of_visitor": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DemographicVisitorByEmotionResponse": {
+            "type": "object",
+            "properties": {
+                "detail_by_emotion": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DetailDemographicVisitorByEmotion"
+                    }
+                },
+                "total_visitor": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DemographicVisitorByGenderResponse": {
+            "type": "object",
+            "properties": {
+                "detail_by_gender": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DetailDemographicVisitorByGender"
+                    }
+                },
+                "total_visitors": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DetailDemographicVisitorByEmotion": {
+            "type": "object",
+            "properties": {
+                "emotion": {
+                    "type": "string"
+                },
+                "number_of_visitor": {
+                    "type": "integer"
+                },
+                "percentage": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.DetailDemographicVisitorByGender": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "type": "string"
+                },
+                "number_of_visitor": {
+                    "type": "integer"
+                },
+                "percentage": {
+                    "type": "number"
                 }
             }
         },
