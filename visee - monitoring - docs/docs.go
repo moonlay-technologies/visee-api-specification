@@ -479,6 +479,9 @@ const docTemplate = `{
                 },
                 "zone": {
                     "type": "string"
+                },
+                "zone_id": {
+                    "type": "integer"
                 }
             }
         },
