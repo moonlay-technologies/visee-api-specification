@@ -255,10 +255,13 @@ paths:
         in: query
         name: name
         type: string
-      - description: Filter client by status
+      - collectionFormat: multi
+        description: Filter client by status
         in: query
+        items:
+          type: string
         name: status
-        type: string
+        type: array
       - description: Filter to set limit in 1 page
         in: query
         name: limit
