@@ -382,6 +382,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.BasicResponse"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.BasicResponse"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -419,7 +425,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/models.CreateWorkhourRequest"
+                                    "$ref": "#/definitions/models.UpdateWorkhourRequest"
                                 },
                                 {
                                     "type": "object",
@@ -1111,6 +1117,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.UpdateWorkhourRequest": {
+            "type": "object",
+            "required": [
+                "workhours"
+            ],
+            "properties": {
+                "workhours": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.WorkhourReq"
+                    }
+                }
+            }
+        },
         "models.WorkhourReq": {
             "type": "object",
             "required": [
@@ -1262,7 +1282,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:3000",
+	Host:             "http://k8s-visee-viseemas-912ec39ee0-3d629274841ec362.elb.ap-southeast-1.amazonaws.com",
 	BasePath:         "/v1",
 	Schemes:          []string{"http"},
 	Title:            "Echo Swagger Example API",

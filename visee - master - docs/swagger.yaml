@@ -121,6 +121,15 @@ definitions:
     - email
     - name
     type: object
+  models.UpdateWorkhourRequest:
+    properties:
+      workhours:
+        items:
+          $ref: '#/definitions/models.WorkhourReq'
+        type: array
+    required:
+    - workhours
+    type: object
   models.WorkhourReq:
     properties:
       active_status:
@@ -221,7 +230,7 @@ definitions:
     - is_cashier
     - name
     type: object
-host: localhost:3000
+host: http://k8s-visee-viseemas-912ec39ee0-3d629274841ec362.elb.ap-southeast-1.amazonaws.com
 info:
   contact:
     email: support@swagger.io
@@ -458,6 +467,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/models.BasicResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.BasicResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -482,7 +495,7 @@ paths:
         required: true
         schema:
           allOf:
-          - $ref: '#/definitions/models.CreateWorkhourRequest'
+          - $ref: '#/definitions/models.UpdateWorkhourRequest'
           - properties:
               workhours:
                 items:
