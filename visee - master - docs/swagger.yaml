@@ -230,7 +230,7 @@ definitions:
     - is_cashier
     - name
     type: object
-host: localhost:3000
+host: http://k8s-visee-viseemas-912ec39ee0-3d629274841ec362.elb.ap-southeast-1.amazonaws.com
 info:
   contact:
     email: support@swagger.io
