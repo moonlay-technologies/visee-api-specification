@@ -46,7 +46,11 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
                         "description": "Filter client by status",
                         "name": "status",
                         "in": "query"
