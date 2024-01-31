@@ -540,6 +540,13 @@ paths:
         name: uuid
         required: true
         type: string
+      - collectionFormat: multi
+        description: filter by camera type
+        in: query
+        items:
+          type: string
+        name: cameraType
+        type: array
       - description: filter to set limit in 1 page
         in: query
         name: limit
@@ -633,10 +640,13 @@ paths:
         in: query
         name: name
         type: string
-      - description: filter by camera type
+      - collectionFormat: multi
+        description: filter by camera type
         in: query
+        items:
+          type: string
         name: cameraType
-        type: string
+        type: array
       - description: filter From by capacity range
         in: query
         name: rangeFrom

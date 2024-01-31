@@ -503,6 +503,16 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "filter by camera type",
+                        "name": "cameraType",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "filter to set limit in 1 page",
                         "name": "limit",
@@ -657,7 +667,11 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "string",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
                         "description": "filter by camera type",
                         "name": "cameraType",
                         "in": "query"
