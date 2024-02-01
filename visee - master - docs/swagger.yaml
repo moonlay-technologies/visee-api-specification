@@ -640,6 +640,10 @@ paths:
         in: query
         name: name
         type: string
+      - description: filter by client uuid
+        in: query
+        name: clientUuid
+        type: string
       - collectionFormat: multi
         description: filter by camera type
         in: query
