@@ -45,12 +45,6 @@ const docTemplate = `{
                         "name": "client_uuid",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by zone uuid",
-                        "name": "zone",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -471,17 +465,11 @@ const docTemplate = `{
                         "$ref": "#/definitions/models.HeatmapDetailByGender"
                     }
                 },
-                "hour": {
-                    "type": "string"
-                },
                 "total_visitor": {
                     "type": "integer"
                 },
                 "zone": {
                     "type": "string"
-                },
-                "zone_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -531,7 +519,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:3008",
+	Host:             "k8s-visee-viseemon-ce182155ea-690ef5528d88e433.elb.ap-southeast-1.amazonaws.com",
 	BasePath:         "/v1",
 	Schemes:          []string{"http"},
 	Title:            "Echo Swagger Example API",
