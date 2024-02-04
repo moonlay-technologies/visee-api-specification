@@ -18,7 +18,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:3008",
+    "host": "k8s-visee-viseemon-ce182155ea-690ef5528d88e433.elb.ap-southeast-1.amazonaws.com",
     "basePath": "/v1",
     "paths": {
         "/heatmap/{client_uuid}": {
@@ -42,12 +42,6 @@
                         "name": "client_uuid",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by zone uuid",
-                        "name": "zone",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -468,17 +462,11 @@
                         "$ref": "#/definitions/models.HeatmapDetailByGender"
                     }
                 },
-                "hour": {
-                    "type": "string"
-                },
                 "total_visitor": {
                     "type": "integer"
                 },
                 "zone": {
                     "type": "string"
-                },
-                "zone_id": {
-                    "type": "integer"
                 }
             }
         },
