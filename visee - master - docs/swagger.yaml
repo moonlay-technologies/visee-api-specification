@@ -33,12 +33,13 @@ definitions:
       uuid:
         type: string
     required:
-    - active_status
     - email
     - name
     type: object
   models.CreateClientRequest:
     properties:
+      active_status:
+        type: string
       address:
         type: string
       contact:

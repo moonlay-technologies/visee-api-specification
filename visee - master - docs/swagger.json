@@ -970,7 +970,6 @@
         "models.ClientResponse": {
             "type": "object",
             "required": [
-                "active_status",
                 "email",
                 "name"
             ],
@@ -1020,6 +1019,9 @@
                 "name"
             ],
             "properties": {
+                "active_status": {
+                    "type": "string"
+                },
                 "address": {
                     "type": "string"
                 },
