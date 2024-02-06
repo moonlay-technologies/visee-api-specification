@@ -973,7 +973,6 @@ const docTemplate = `{
         "models.ClientResponse": {
             "type": "object",
             "required": [
-                "active_status",
                 "email",
                 "name"
             ],
@@ -1023,6 +1022,9 @@ const docTemplate = `{
                 "name"
             ],
             "properties": {
+                "active_status": {
+                    "type": "string"
+                },
                 "address": {
                     "type": "string"
                 },
