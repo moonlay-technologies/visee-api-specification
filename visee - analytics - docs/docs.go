@@ -80,13 +80,15 @@ const docTemplate = `{
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -215,13 +217,15 @@ const docTemplate = `{
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -320,16 +324,28 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "zone uuid",
+                        "name": "filter_zone",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -423,6 +439,16 @@ const docTemplate = `{
                         "name": "client_uuid",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "zone uuid",
+                        "name": "filter_zone",
+                        "in": "query"
                     },
                     {
                         "type": "string",
@@ -530,16 +556,28 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "zone uuid",
+                        "name": "filter_zone",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
+                        "name": "range_from",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -796,13 +834,15 @@ const docTemplate = `{
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -934,13 +974,15 @@ const docTemplate = `{
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
