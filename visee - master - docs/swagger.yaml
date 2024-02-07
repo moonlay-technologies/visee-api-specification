@@ -290,11 +290,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Get client master
       tags:
       - Client
@@ -327,11 +341,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Create client master
       tags:
       - Client
@@ -353,15 +381,36 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Delete client master
       tags:
       - Client
@@ -393,11 +442,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Get detail client master
       tags:
       - Client
@@ -435,11 +498,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Update client master
       tags:
       - Client
@@ -470,15 +547,36 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Get  master workhour data by client uuid
       tags:
       - Client
@@ -521,11 +619,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Update  master workhour
       tags:
       - Client
@@ -577,11 +689,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Get  master zone data by client uuid
       tags:
       - Client
@@ -622,11 +748,25 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.BasicResponse'
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
       summary: Create  master workhour
       tags:
       - Workhour
