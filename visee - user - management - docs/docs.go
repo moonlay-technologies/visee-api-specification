@@ -765,7 +765,7 @@ const docTemplate = `{
                         },
                         "collectionFormat": "multi",
                         "description": "Filter client by group",
-                        "name": "group",
+                        "name": "group_names",
                         "in": "query"
                     }
                 ],
@@ -1909,7 +1909,7 @@ const docTemplate = `{
                     "maxLength": 30,
                     "minLength": 1
                 },
-                "group": {
+                "group_names": {
                     "type": "array",
                     "items": {
                         "type": "string"

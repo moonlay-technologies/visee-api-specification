@@ -51,7 +51,7 @@ definitions:
         maxLength: 30
         minLength: 1
         type: string
-      group:
+      group_names:
         items:
           type: string
         type: array
@@ -577,7 +577,7 @@ paths:
         in: query
         items:
           type: string
-        name: group
+        name: group_names
         type: array
       produces:
       - application/json
