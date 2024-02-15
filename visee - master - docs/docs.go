@@ -1608,7 +1608,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "http://k8s-visee-viseemas-912ec39ee0-3d629274841ec362.elb.ap-southeast-1.amazonaws.com",
+	Host:             "k8s-visee-viseemas-912ec39ee0-3d629274841ec362.elb.ap-southeast-1.amazonaws.com",
 	BasePath:         "/v1",
 	Schemes:          []string{"http"},
 	Title:            "Echo Swagger Example API",
