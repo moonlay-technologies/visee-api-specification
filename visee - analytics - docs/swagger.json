@@ -451,13 +451,15 @@
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -693,13 +695,15 @@
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1111,13 +1115,15 @@
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1246,13 +1252,15 @@
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1381,13 +1389,15 @@
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_from",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "YYYY-MM-DD",
                         "name": "range_to",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {

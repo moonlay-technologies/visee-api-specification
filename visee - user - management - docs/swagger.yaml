@@ -1,0 +1,1185 @@
+basePath: /v1
+definitions:
+  models.Attributes:
+    properties:
+      client_name:
+        type: string
+      client_uuid:
+        type: string
+    type: object
+  models.BasicResponse:
+    properties:
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.Group:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  models.GroupRequest:
+    properties:
+      group_name:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - group_name
+    type: object
+  models.PasswordRequest:
+    properties:
+      confirm_password:
+        type: string
+      password:
+        type: string
+      temporary_password:
+        type: boolean
+    required:
+    - confirm_password
+    - password
+    type: object
+  models.RegisterRequest:
+    properties:
+      attributes:
+        $ref: '#/definitions/models.Attributes'
+      email:
+        type: string
+      first_name:
+        maxLength: 30
+        minLength: 1
+        type: string
+      group_names:
+        items:
+          type: string
+        type: array
+      last_name:
+        maxLength: 30
+        minLength: 1
+        type: string
+      password:
+        type: string
+      status:
+        type: string
+      temporary_password:
+        type: boolean
+      username:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message: {}
+      status_code:
+        type: integer
+    type: object
+  models.ShortClient:
+    properties:
+      name:
+        type: string
+      uuid:
+        type: string
+    required:
+    - name
+    type: object
+  models.UpdateRequest:
+    properties:
+      attributes:
+        $ref: '#/definitions/models.Attributes'
+      email:
+        type: string
+      first_name:
+        maxLength: 30
+        minLength: 1
+        type: string
+      last_name:
+        maxLength: 30
+        minLength: 1
+        type: string
+      status:
+        type: string
+      username:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - email
+    - username
+    type: object
+  models.User:
+    properties:
+      attributes:
+        additionalProperties:
+          items:
+            type: string
+          type: array
+        type: object
+      email:
+        type: string
+      email_verified:
+        type: boolean
+      first_name:
+        type: string
+      groups:
+        items:
+          $ref: '#/definitions/models.Group'
+        type: array
+      id:
+        type: string
+      last_name:
+        type: string
+      master_client:
+        $ref: '#/definitions/models.ShortClient'
+      status:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:3008
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Echo Swagger Example API
+  version: "1.0"
+paths:
+  /groups:
+    get:
+      consumes:
+      - application/json
+      description: Get Groups
+      operationId: get-groups
+      parameters:
+      - description: filter by username and client name
+        in: query
+        name: keyword
+        type: string
+      - description: filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: filter to spesific page
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.Group'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get Groups
+      tags:
+      - Group
+    post:
+      consumes:
+      - application/json
+      description: Create Group
+      operationId: create-group
+      parameters:
+      - description: Post zona name
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.GroupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.Group'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Create Group
+      tags:
+      - Group
+  /groups/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Group
+      operationId: delete-group
+      parameters:
+      - description: Group Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.Group'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Delete Group
+      tags:
+      - Group
+    get:
+      consumes:
+      - application/json
+      description: Get Group
+      operationId: get-group
+      parameters:
+      - description: Group Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.Group'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get Group
+      tags:
+      - Group
+    patch:
+      consumes:
+      - application/json
+      description: update Group
+      operationId: update-group
+      parameters:
+      - description: Group Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.Group'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Update Group
+      tags:
+      - Group
+  /groups/by-path/{path}:
+    get:
+      consumes:
+      - application/json
+      description: Get Group by path
+      operationId: get-group-by-path
+      parameters:
+      - description: path group
+        in: path
+        name: path
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.Group'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get Group by path
+      tags:
+      - Group
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get Users
+      operationId: get-users
+      parameters:
+      - description: filter by username and client name
+        in: query
+        name: keyword
+        type: string
+      - description: filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: filter to spesific page
+        in: query
+        name: page
+        type: integer
+      - collectionFormat: multi
+        description: Filter client by status
+        in: query
+        items:
+          type: string
+        name: status
+        type: array
+      - collectionFormat: multi
+        description: Filter client by group
+        in: query
+        items:
+          type: string
+        name: group_names
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.User'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get Users
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Register User
+      operationId: register-user
+      parameters:
+      - description: Post register user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.User'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Register User
+      tags:
+      - User
+  /users-gocloak:
+    get:
+      consumes:
+      - application/json
+      description: Get Users Gocloak
+      operationId: get-users-go-cloak
+      parameters:
+      - description: filter by username and client name
+        in: query
+        name: keyword
+        type: string
+      - description: filter by email
+        in: query
+        name: email
+        type: string
+      - description: filter to set limit in 1 page
+        in: query
+        name: limit
+        type: integer
+      - description: filter to spesific page
+        in: query
+        name: page
+        type: integer
+      - collectionFormat: multi
+        description: Filter client by status
+        in: query
+        items:
+          type: string
+        name: status
+        type: array
+      - description: get data group by users
+        in: query
+        name: without_group
+        type: boolean
+      - description: if only want get data from attr client
+        in: query
+        name: flush_client
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.User'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get Users Gocloak
+      tags:
+      - User
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete User
+      operationId: delete-user
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.User'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Delete User
+      tags:
+      - User
+    get:
+      consumes:
+      - application/json
+      description: Get User By Id
+      operationId: get-user-by-id
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.User'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get User By Id
+      tags:
+      - User
+    patch:
+      consumes:
+      - application/json
+      description: Update User
+      operationId: update-user
+      parameters:
+      - description: Post register user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  $ref: '#/definitions/models.User'
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Update User
+      tags:
+      - User
+  /users/{id}/group/{groupId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete User From Group
+      operationId: delete-user-from-group
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Group Id
+        in: path
+        name: groupId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  items:
+                    $ref: '#/definitions/models.Group'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Delete User From Group
+      tags:
+      - Group Mapping
+    put:
+      consumes:
+      - application/json
+      description: Add User To Group
+      operationId: add-user-to-group
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Group Id
+        in: path
+        name: groupId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  items:
+                    $ref: '#/definitions/models.Group'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Add User To Group
+      tags:
+      - Group Mapping
+  /users/{id}/password:
+    patch:
+      consumes:
+      - application/json
+      description: Set Password User
+      operationId: set-password-user
+      parameters:
+      - description: set password user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.PasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Set Password User
+      tags:
+      - User
+schemes:
+- http
+swagger: "2.0"

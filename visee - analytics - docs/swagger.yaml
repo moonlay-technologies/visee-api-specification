@@ -405,10 +405,12 @@ paths:
       - description: YYYY-MM-DD
         in: query
         name: range_from
+        required: true
         type: string
       - description: YYYY-MM-DD
         in: query
         name: range_to
+        required: true
         type: string
       produces:
       - application/json
@@ -550,10 +552,12 @@ paths:
       - description: YYYY-MM-DD
         in: query
         name: range_from
+        required: true
         type: string
       - description: YYYY-MM-DD
         in: query
         name: range_to
+        required: true
         type: string
       produces:
       - application/json
@@ -806,10 +810,12 @@ paths:
       - description: YYYY-MM-DD
         in: query
         name: range_from
+        required: true
         type: string
       - description: YYYY-MM-DD
         in: query
         name: range_to
+        required: true
         type: string
       produces:
       - application/json
@@ -888,10 +894,12 @@ paths:
       - description: YYYY-MM-DD
         in: query
         name: range_from
+        required: true
         type: string
       - description: YYYY-MM-DD
         in: query
         name: range_to
+        required: true
         type: string
       produces:
       - application/json
@@ -970,10 +978,12 @@ paths:
       - description: YYYY-MM-DD
         in: query
         name: range_from
+        required: true
         type: string
       - description: YYYY-MM-DD
         in: query
         name: range_to
+        required: true
         type: string
       produces:
       - application/json

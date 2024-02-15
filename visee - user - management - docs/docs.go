@@ -24,9 +24,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/analytic/buyers/{client_uuid}/count": {
+        "/groups": {
             "get": {
-                "description": "Get count buyers analytics",
+                "description": "Get Groups",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,61 +34,28 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Buyers"
+                    "Group"
                 ],
-                "summary": "Get count buyers analytics",
-                "operationId": "count-buyers-analytics",
+                "summary": "Get Groups",
+                "operationId": "get-groups",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
+                        "description": "filter by username and client name",
+                        "name": "keyword",
                         "in": "query"
                     },
                     {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
+                        "type": "integer",
+                        "description": "filter to set limit in 1 page",
+                        "name": "limit",
                         "in": "query"
                     },
                     {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
+                        "type": "integer",
+                        "description": "filter to spesific page",
+                        "name": "page",
                         "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -102,8 +69,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.BuyersCountResponse"
+                                        " data": {
+                                            "$ref": "#/definitions/models.Group"
                                         },
                                         "message": {
                                             "type": "array",
@@ -118,6 +85,141 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Create Group",
+                "operationId": "create-group",
+                "parameters": [
+                    {
+                        "description": "Post zona name",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.GroupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.Group"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -161,9 +263,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/buyers/{client_uuid}/trend-by-time-period": {
+        "/groups/by-path/{path}": {
             "get": {
-                "description": "Get trend of buyers by time period analytics",
+                "description": "Get Group by path",
                 "consumes": [
                     "application/json"
                 ],
@@ -171,60 +273,16 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Buyers"
+                    "Group"
                 ],
-                "summary": "Get trend of buyers by time period analytics",
-                "operationId": "trend-of-buyers-by-time-period-analytics",
+                "summary": "Get Group by path",
+                "operationId": "get-group-by-path",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
+                        "description": "path group",
+                        "name": "path",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
                         "required": true
                     }
                 ],
@@ -239,11 +297,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.GetTimePeriodVisitors"
-                                            }
+                                        " data": {
+                                            "$ref": "#/definitions/models.Group"
                                         },
                                         "message": {
                                             "type": "array",
@@ -258,6 +313,27 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -301,9 +377,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/demographic/{client_uuid}/visitor-by-age": {
+        "/groups/{id}": {
             "get": {
-                "description": "Get demographic visitory by age analytics",
+                "description": "Get Group",
                 "consumes": [
                     "application/json"
                 ],
@@ -311,40 +387,16 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Demographic"
+                    "Group"
                 ],
-                "summary": "Get demographic visitory by age analytics",
-                "operationId": "demographic-visitory-by-age-analytics",
+                "summary": "Get Group",
+                "operationId": "get-group",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
+                        "description": "Group Id",
+                        "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
                         "required": true
                     }
                 ],
@@ -359,8 +411,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.DemographicVisitorByAgeResponse"
+                                        " data": {
+                                            "$ref": "#/definitions/models.Group"
                                         },
                                         "message": {
                                             "type": "array",
@@ -375,6 +427,251 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Delete Group",
+                "operationId": "delete-group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.Group"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "update Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Update Group",
+                "operationId": "update-group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.Group"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -418,9 +715,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/demographic/{client_uuid}/visitor-by-emotion": {
+        "/users": {
             "get": {
-                "description": "Get demographic percentage visitor by emotion",
+                "description": "Get Users",
                 "consumes": [
                     "application/json"
                 ],
@@ -428,17 +725,28 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Demographic"
+                    "User"
                 ],
-                "summary": "Get demographic percentage visitor by emotion",
-                "operationId": "Demographic",
+                "summary": "Get Users",
+                "operationId": "get-users",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
+                        "description": "filter by username and client name",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter to set limit in 1 page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter to spesific page",
+                        "name": "page",
+                        "in": "query"
                     },
                     {
                         "type": "array",
@@ -446,23 +754,19 @@ const docTemplate = `{
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
+                        "description": "Filter client by status",
+                        "name": "status",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "Filter client by group",
+                        "name": "group_names",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -476,8 +780,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.DemographicVisitorByEmotionResponse"
+                                        " data": {
+                                            "$ref": "#/definitions/models.User"
                                         },
                                         "message": {
                                             "type": "array",
@@ -492,6 +796,141 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Register User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register User",
+                "operationId": "register-user",
+                "parameters": [
+                    {
+                        "description": "Post register user",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.User"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -535,9 +974,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/demographic/{client_uuid}/visitor-by-gender": {
+        "/users-gocloak": {
             "get": {
-                "description": "Get demographic visitory by gender analytics",
+                "description": "Get Users Gocloak",
                 "consumes": [
                     "application/json"
                 ],
@@ -545,17 +984,34 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Demographic"
+                    "User"
                 ],
-                "summary": "Get demographic visitory by gender analytics",
-                "operationId": "demographic-visitory-by-gender-analytics",
+                "summary": "Get Users Gocloak",
+                "operationId": "get-users-go-cloak",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
+                        "description": "filter by username and client name",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "filter by email",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter to set limit in 1 page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter to spesific page",
+                        "name": "page",
+                        "in": "query"
                     },
                     {
                         "type": "array",
@@ -563,23 +1019,21 @@ const docTemplate = `{
                             "type": "string"
                         },
                         "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
+                        "description": "Filter client by status",
+                        "name": "status",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
+                        "type": "boolean",
+                        "description": "get data group by users",
+                        "name": "without_group",
+                        "in": "query"
                     },
                     {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
+                        "type": "boolean",
+                        "description": "if only want get data from attr client",
+                        "name": "flush_client",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -593,8 +1047,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.DemographicVisitorByGenderResponse"
+                                        " data": {
+                                            "$ref": "#/definitions/models.User"
                                         },
                                         "message": {
                                             "type": "array",
@@ -609,6 +1063,27 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -652,9 +1127,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/heatmap/{client_uuid}": {
+        "/users/{id}": {
             "get": {
-                "description": "Get heatmap",
+                "description": "Get User By Id",
                 "consumes": [
                     "application/json"
                 ],
@@ -662,50 +1137,16 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Heatmap"
+                    "User"
                 ],
-                "summary": "Get heatmap",
-                "operationId": "heatmap",
+                "summary": "Get User By Id",
+                "operationId": "get-user-by-id",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
+                        "description": "User Id",
+                        "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
                         "required": true
                     }
                 ],
@@ -720,11 +1161,8 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.GetHeatmapResponse"
-                                            }
+                                        " data": {
+                                            "$ref": "#/definitions/models.User"
                                         },
                                         "message": {
                                             "type": "array",
@@ -739,6 +1177,253 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete User",
+                "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.User"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User",
+                "operationId": "update-user",
+                "parameters": [
+                    {
+                        "description": "Post register user",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "$ref": "#/definitions/models.User"
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -782,9 +1467,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/history-state/{client_uuid}/avg-dw-time-by-period": {
-            "get": {
-                "description": "Get avg dwell time by time period analytics",
+        "/users/{id}/group/{groupId}": {
+            "put": {
+                "description": "Add User To Group",
                 "consumes": [
                     "application/json"
                 ],
@@ -792,60 +1477,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "History State"
+                    "Group Mapping"
                 ],
-                "summary": "Get avg dwell time by time period analytics",
-                "operationId": "avg-dwell-time-by-time-period-analytics",
+                "summary": "Add User To Group",
+                "operationId": "add-user-to-group",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
+                        "description": "User Id",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
                         "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
+                        "description": "Group Id",
+                        "name": "groupId",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -860,10 +1508,10 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
+                                        " data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/models.AvgDwTimeByPeriod"
+                                                "$ref": "#/definitions/models.Group"
                                             }
                                         },
                                         "message": {
@@ -879,6 +1527,149 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete User From Group",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Group Mapping"
+                ],
+                "summary": "Delete User From Group",
+                "operationId": "delete-user-from-group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Group Id",
+                        "name": "groupId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        " data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Group"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.BasicResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -922,9 +1713,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/analytic/history-state/{client_uuid}/avg-dw-time-by-zone": {
-            "get": {
-                "description": "Get avg dwell time by time zone analytics",
+        "/users/{id}/password": {
+            "patch": {
+                "description": "Set Password User",
                 "consumes": [
                     "application/json"
                 ],
@@ -932,61 +1723,19 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "History State"
+                    "User"
                 ],
-                "summary": "Get avg dwell time by time zone analytics",
-                "operationId": "avg-dwell-time-by-time-zone-analytics",
+                "summary": "Set Password User",
+                "operationId": "set-password-user",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
+                        "description": "set password user",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.PasswordRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -995,17 +1744,11 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/models.Response"
+                                    "$ref": "#/definitions/models.BasicResponse"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.AvgDwTimeByZone"
-                                            }
-                                        },
                                         "message": {
                                             "type": "array",
                                             "items": {
@@ -1038,398 +1781,8 @@ const docTemplate = `{
                             ]
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.BasicResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/analytic/visitor/{client_uuid}/count": {
-            "get": {
-                "description": "Get count visitor analytics",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Visitor"
-                ],
-                "summary": "Get count visitor analytics",
-                "operationId": "count-visitor-analytics",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.VisitorCountResponse"
-                                        },
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.BasicResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.BasicResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/analytic/visitor/{client_uuid}/count-group": {
-            "get": {
-                "description": "Get count max, min, avg visitor analytics",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Visitor"
-                ],
-                "summary": "Get count max, min, avg visitor analytics",
-                "operationId": "count-visitor-analytic-group",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.VisitorCount"
-                                        },
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.BasicResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.BasicResponse"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/analytic/visitor/{client_uuid}/time-period-by-gender": {
-            "get": {
-                "description": "Get number visitors of time period",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Visitor"
-                ],
-                "summary": "Get number visitors of time period",
-                "operationId": "number-visitor-time-period",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "client uuid",
-                        "name": "client_uuid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "zone uuid",
-                        "name": "filter_zone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "gender",
-                        "name": "filter_gender",
-                        "in": "query"
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "collectionFormat": "multi",
-                        "description": "age",
-                        "name": "filter_age",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_from",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "YYYY-MM-DD",
-                        "name": "range_to",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/models.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.GetTimePeriodVisitors"
-                                        },
-                                        "message": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "allOf": [
                                 {
@@ -1475,24 +1828,13 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.AvgDwTimeByPeriod": {
+        "models.Attributes": {
             "type": "object",
             "properties": {
-                "avg_dw_time": {
-                    "type": "number"
-                },
-                "time_period": {
+                "client_name": {
                     "type": "string"
-                }
-            }
-        },
-        "models.AvgDwTimeByZone": {
-            "type": "object",
-            "properties": {
-                "avg_dw_time": {
-                    "type": "number"
                 },
-                "zone": {
+                "client_uuid": {
                     "type": "string"
                 }
             }
@@ -1506,129 +1848,91 @@ const docTemplate = `{
                 }
             }
         },
-        "models.BuyersCountResponse": {
+        "models.Group": {
             "type": "object",
             "properties": {
-                "number_of_buyers": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.DemographicVisitorByAgeResponse": {
-            "type": "object",
-            "properties": {
-                "age": {
+                "id": {
                     "type": "string"
                 },
-                "number_of_visitor": {
-                    "type": "integer"
+                "name": {
+                    "type": "string"
                 }
             }
         },
-        "models.DemographicVisitorByEmotionResponse": {
+        "models.GroupRequest": {
             "type": "object",
+            "required": [
+                "group_name"
+            ],
             "properties": {
-                "detail_by_emotion": {
+                "group_name": {
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
+                }
+            }
+        },
+        "models.PasswordRequest": {
+            "type": "object",
+            "required": [
+                "confirm_password",
+                "password"
+            ],
+            "properties": {
+                "confirm_password": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "temporary_password": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/models.Attributes"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                },
+                "group_names": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.DetailDemographicVisitorByEmotion"
+                        "type": "string"
                     }
                 },
-                "total_visitor": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.DemographicVisitorByGenderResponse": {
-            "type": "object",
-            "properties": {
-                "detail_by_gender": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.DetailDemographicVisitorByGender"
-                    }
+                "last_name": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
                 },
-                "total_visitors": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.DetailDemographicVisitorByEmotion": {
-            "type": "object",
-            "properties": {
-                "emotion": {
+                "password": {
                     "type": "string"
                 },
-                "number_of_visitor": {
-                    "type": "integer"
-                },
-                "percentage": {
-                    "type": "number"
-                }
-            }
-        },
-        "models.DetailDemographicVisitorByGender": {
-            "type": "object",
-            "properties": {
-                "gender": {
+                "status": {
                     "type": "string"
                 },
-                "number_of_visitor": {
-                    "type": "integer"
+                "temporary_password": {
+                    "type": "boolean"
                 },
-                "percentage": {
-                    "type": "number"
-                }
-            }
-        },
-        "models.GetHeatmapResponse": {
-            "type": "object",
-            "properties": {
-                "capacity": {
-                    "type": "integer"
-                },
-                "density": {
-                    "type": "number"
-                },
-                "detail_by_gender": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.HeatmapDetailByGender"
-                    }
-                },
-                "total_visitor": {
-                    "type": "integer"
-                },
-                "zone": {
-                    "type": "string"
-                },
-                "zone_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "models.GetTimePeriodVisitors": {
-            "type": "object",
-            "properties": {
-                "female_count": {
-                    "type": "integer"
-                },
-                "male_count": {
-                    "type": "integer"
-                },
-                "time_period": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.HeatmapDetailByGender": {
-            "type": "object",
-            "properties": {
-                "gender": {
-                    "type": "string"
-                },
-                "total": {
-                    "type": "integer"
+                "username": {
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
                 }
             }
         },
@@ -1642,36 +1946,94 @@ const docTemplate = `{
                 }
             }
         },
-        "models.SumCountVisitor": {
+        "models.ShortClient": {
             "type": "object",
+            "required": [
+                "name"
+            ],
             "properties": {
-                "label": {
+                "name": {
                     "type": "string"
                 },
-                "sum_count": {
-                    "type": "integer"
+                "uuid": {
+                    "type": "string"
                 }
             }
         },
-        "models.VisitorCount": {
+        "models.UpdateRequest": {
             "type": "object",
+            "required": [
+                "email",
+                "username"
+            ],
             "properties": {
-                "avg_visitor": {
-                    "type": "number"
+                "attributes": {
+                    "$ref": "#/definitions/models.Attributes"
                 },
-                "max_visitor": {
-                    "$ref": "#/definitions/models.SumCountVisitor"
+                "email": {
+                    "type": "string"
                 },
-                "min_visitor": {
-                    "$ref": "#/definitions/models.SumCountVisitor"
+                "first_name": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                },
+                "last_name": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                },
+                "status": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
                 }
             }
         },
-        "models.VisitorCountResponse": {
+        "models.User": {
             "type": "object",
             "properties": {
-                "number_of_visitor": {
-                    "type": "integer"
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "email_verified": {
+                    "type": "boolean"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Group"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "master_client": {
+                    "$ref": "#/definitions/models.ShortClient"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         }
@@ -1681,7 +2043,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "k8s-visee-viseeana-739efae092-dafee2175ed1c246.elb.ap-southeast-1.amazonaws.com",
+	Host:             "localhost:3008",
 	BasePath:         "/v1",
 	Schemes:          []string{"http"},
 	Title:            "Echo Swagger Example API",
