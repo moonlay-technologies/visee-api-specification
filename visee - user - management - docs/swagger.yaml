@@ -20,6 +20,13 @@ definitions:
       name:
         type: string
     type: object
+  models.GroupIds:
+    properties:
+      group_ids:
+        items:
+          type: string
+        type: array
+    type: object
   models.GroupRequest:
     properties:
       group_name:
@@ -143,7 +150,7 @@ definitions:
       username:
         type: string
     type: object
-host: localhost:3008
+host: k8s-visee-viseeuse-7e49df1b98-487c79742e9e8c17.elb.ap-southeast-1.amazonaws.com
 info:
   contact:
     email: support@swagger.io
@@ -164,9 +171,9 @@ paths:
       description: Get Groups
       operationId: get-groups
       parameters:
-      - description: filter by username and client name
+      - description: filter by name
         in: query
-        name: keyword
+        name: name
         type: string
       - description: filter to set limit in 1 page
         in: query
@@ -553,9 +560,13 @@ paths:
       description: Get Users
       operationId: get-users
       parameters:
-      - description: filter by username and client name
+      - description: filter by username, last_name and fisrt_name
         in: query
-        name: keyword
+        name: name
+        type: string
+      - description: filter by client_name
+        in: query
+        name: client_name
         type: string
       - description: filter to set limit in 1 page
         in: query
@@ -693,96 +704,6 @@ paths:
                   type: array
               type: object
       summary: Register User
-      tags:
-      - User
-  /users-gocloak:
-    get:
-      consumes:
-      - application/json
-      description: Get Users Gocloak
-      operationId: get-users-go-cloak
-      parameters:
-      - description: filter by username and client name
-        in: query
-        name: keyword
-        type: string
-      - description: filter by email
-        in: query
-        name: email
-        type: string
-      - description: filter to set limit in 1 page
-        in: query
-        name: limit
-        type: integer
-      - description: filter to spesific page
-        in: query
-        name: page
-        type: integer
-      - collectionFormat: multi
-        description: Filter client by status
-        in: query
-        items:
-          type: string
-        name: status
-        type: array
-      - description: get data group by users
-        in: query
-        name: without_group
-        type: boolean
-      - description: if only want get data from attr client
-        in: query
-        name: flush_client
-        type: boolean
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.Response'
-            - properties:
-                ' data':
-                  $ref: '#/definitions/models.User'
-                message:
-                  items:
-                    type: string
-                  type: array
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.BasicResponse'
-            - properties:
-                message:
-                  items:
-                    type: string
-                  type: array
-              type: object
-        "404":
-          description: Not Found
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.BasicResponse'
-            - properties:
-                message:
-                  items:
-                    type: string
-                  type: array
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/models.BasicResponse'
-            - properties:
-                message:
-                  items:
-                    type: string
-                  type: array
-              type: object
-      summary: Get Users Gocloak
       tags:
       - User
   /users/{id}:
@@ -976,6 +897,147 @@ paths:
       summary: Update User
       tags:
       - User
+  /users/{id}/group:
+    get:
+      consumes:
+      - application/json
+      description: Get User Groups
+      operationId: get-user-groups
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: filter by name
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  items:
+                    $ref: '#/definitions/models.Group'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Get User Groups
+      tags:
+      - Group Mapping
+    put:
+      consumes:
+      - application/json
+      description: Group Mapping User
+      operationId: group-mapping-user
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: group mapping user
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.GroupIds'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.Response'
+            - properties:
+                ' data':
+                  items:
+                    $ref: '#/definitions/models.Group'
+                  type: array
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.BasicResponse'
+            - properties:
+                message:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: Group Mapping User
+      tags:
+      - Group Mapping
   /users/{id}/group/{groupId}:
     delete:
       consumes:
