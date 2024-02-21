@@ -660,6 +660,14 @@ paths:
           type: string
         name: cameraType
         type: array
+      - description: filter From by capacity range
+        in: query
+        name: rangeFrom
+        type: integer
+      - description: filter To by capacity range
+        in: query
+        name: rangeTo
+        type: integer
       - description: filter to set limit in 1 page
         in: query
         name: limit

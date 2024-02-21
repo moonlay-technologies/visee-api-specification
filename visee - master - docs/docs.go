@@ -754,6 +754,18 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
+                        "description": "filter From by capacity range",
+                        "name": "rangeFrom",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "filter To by capacity range",
+                        "name": "rangeTo",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
                         "description": "filter to set limit in 1 page",
                         "name": "limit",
                         "in": "query"
